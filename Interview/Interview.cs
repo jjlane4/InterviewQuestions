@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace InterviewQuestions
 {
@@ -6,59 +8,82 @@ namespace InterviewQuestions
     {
         public static void Main(String[] args)
         {
+            Interview interview = new Interview();
+
             //#1 reverse a string
             String a = "";
             Console.WriteLine("Please type the word you wish to reverse.");
             a = Console.ReadLine();
 
-            String rev = reverse(a);
-            Console.WriteLine("The reverse of the string is : " + rev);
+            Console.WriteLine("This is the word you entered: " + a);
+            String rev = interview.reverse(a);
+            Console.WriteLine("The reverse of the word is : " + rev);
+            bool testPalindrome = interview.palindrome(a);
+            Console.WriteLine("Is the string you entered a palindrome?" + testPalindrome);
 
             //#2 most freq int in an array
             int[] testArray = { 1, 1, 2, 2, 3, 3, 7, 7, 8, 8, 9, 9, 10, 10, 11 };
-            int freq = freqInt(testArray);
-            Console.WriteLine("The most frequent int in the array: " + freq);
-
-            //#3 fibbonaci iteratively and recursively 
-            int[] fibArray = fibbITER(10);
-            Console.WriteLine();
-            Console.WriteLine("This is the fibb array iter: ");
-            for (int i = 0; i < fibArray.Length; i++)
+            Console.Write("These are the values in the array: \n" + testArray[0]);
+            for (int i = 1; i < testArray.Length; i++)
             {
-                Console.WriteLine(fibArray[i] + " ");
+                Console.Write(" , " + testArray[i]);
             }
             Console.WriteLine("");
-            Console.WriteLine("This is the fibb array recur:");
+            int freq = interview.freqInt(testArray);
+            Console.WriteLine("The most frequent int in the array: \n" + freq);
+
+            //#3 Find the only element in an array that only occurs once.
+            //using testArray again.
+            int x = interview.occursOnce(testArray);
+            Console.WriteLine("This value only occurs once in the array: " + x);
+
+            //#4 Find the common elements of 2 int arrays
+            //using test array again.
+            int[] comm = new int[100];
+            int[] testArray2 = { 1, 3, 5, 7, 9, 11, 13 };
+            Console.Write("This is the elements in testArray2: \n" + testArray2[0]);
+            for (int i = 1; i < testArray2.Length; i++)
+            {
+                Console.Write(" , " + testArray2[i]);
+            }
+            Console.WriteLine("");
+            Console.WriteLine("This is the common elements found in both arrays: ");
+            interview.commonElements(testArray, testArray2);
+
+            //#5 fibbonaci iteratively and recursively 
+            int[] fibArray = interview.fibbITER(10);
+            Console.WriteLine();
+            Console.Write("This is the fibb array iterative with input of 10: \n" + fibArray[0]);
+            for (int i = 1; i < fibArray.Length; i++)
+            {
+                Console.Write(" , " + fibArray[i]);
+            }
+            Console.WriteLine("");
+            Console.Write("This is the fibb array recursive with input of 10: ");
+            Console.WriteLine("");
             int n = 10;
             for (int i = 0; i < n; i++)
             {
-                Console.WriteLine(fibbRECUR(i) + " ");
+                if (i == 0)
+                {
+                    Console.Write(interview.fibbRECUR(i));
+                }
+                else
+                {
+                    Console.Write(" , " + interview.fibbRECUR(i));
+                }
             }
-
-            //#4 Find the only element in an array that only occurs once.
-            //using testArray again.
-            int x = 0;
-            x = occursOnce(testArray);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("This value only occurs once in the array: " + x);
-
-            //#5 Find the common elements of 2 int arrays
-            //using test array again.
-            Console.WriteLine("This is the common elements found in testArray2");
-            int[] comm = new int[100];
-            int[] testArray2 = { 1, 3, 5, 7, 9, 11, 13 };
-            commonElements(testArray, testArray2);
+            Console.WriteLine("");
 
             //#6 Implement binary search of a sorted array of integers.
-            binarySearch(8, testArray);
+            interview.binarySearch(8, testArray);
 
-            //#7 Implement binary search in a rotated array {5,6,7,8,1,2,3}
-            int[] rotArray = new int[] { 5, 6, 7, 8, 1, 2, 3 };
-            int[] storedA = new int[rotArray.Length];
-            storedA = sexySort(rotArray);
-            binarySearch(6, rotArray);
+            //#7 Find unique elements of one array in comparison to another array
+            Console.WriteLine("This is the unique values in testArray not contained in testArray2: ");
+            interview.uniqueElements(testArray, testArray2);
 
+            //keep console open
+            Console.ReadKey();
         }
 
 
@@ -67,46 +92,29 @@ namespace InterviewQuestions
          * @param a
          * @return b
          */
-        public static string reverse(string a)
+        public string reverse(string a)
         {
-            String b = "";
-            for (int i = a.Length - 1; i >= 0; i--)
+            StringBuilder b = new StringBuilder("");
+            if (a == null)
             {
-
-                b = b + a[i];
+                Console.WriteLine("Error: The string is null.");
             }
-
-
-            return b;
-
-        }
-
-        /**
-	 * sorts a rotated array 
-	 * @param s
-	 * @return
-	 */
-        public static int[] sexySort(int[] s)
-        {
-            int saveV = 0;
-            int[] tempA = new int[s.Length];
-
-
-            for (int i = 1; i < s.Length - 1; i++)
+            else if (a.Length == 1)
             {
-                if (s[i] < s[i - 1])
+                return a;
+            }
+            else
+            {
+                for (int i = a.Length - 1; i >= 0; i--)
                 {
-                    saveV = i;
-                    break;
+
+                    b = b.Append(a[i]);
                 }
-            }
-
-            for (int i = 0; i < tempA.Length; i++)
-            {
 
             }
 
-            return tempA;
+            return b.ToString();
+
         }
 
         /**
@@ -114,7 +122,7 @@ namespace InterviewQuestions
          * @param a
          * @param b
          */
-        public static void binarySearch(int a, int[] b)
+        public void binarySearch(int a, int[] b)
         {
             int high = b.Length - 1;
             int low = 0;
@@ -142,70 +150,57 @@ namespace InterviewQuestions
         }
 
         /**
-         * Find all the common elements of 2 arrays
+         * Find all the common elements of 2 arrays. Fastest way is to use Hash set. 
          * @param testArray
          * @param testArray2
          */
-        public static void commonElements(int[] testArray, int[] testArray2)
+        public void commonElements(int[] testArray, int[] testArray2)
         {
-            int temp = 0;
-            Array.Sort(testArray);
-            temp = testArray[0];
-
-            for (int i = 0; i < testArray.Length; i++)
+            HashSet<int> map = new HashSet<int>();
+            foreach(int i in testArray){
+                map.Add(i);
+            }
+            foreach (int i in testArray2)
             {
-                if (i == 0)
+                if (map.Contains(i))
                 {
-                    for (int j = 0; j < testArray2.Length; j++)
-                    {
-                        if (j == 0)
-                        {
-                            if (testArray[i] == testArray2[j])
-                            {
-                                Console.WriteLine(testArray[i]);
-                            }
-                        }
-                        else
-                        {
-                            if (testArray[i] == testArray2[j] && testArray2[j] != testArray2[j - 1])
-                            {
-                                Console.WriteLine(testArray[i]);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (testArray[i] != testArray[i - 1])
-                    {
-                        for (int j = 0; j < testArray2.Length; j++)
-                        {
-                            if (j == 0)
-                            {
-                                if (testArray[i] == testArray2[j])
-                                {
-                                    Console.WriteLine(testArray[i]);
-                                }
-                            }
-                            else
-                            {
-                                if (testArray[i] == testArray2[j] && testArray2[j] != testArray2[j - 1])
-                                {
-                                    Console.WriteLine(testArray[i]);
-                                }
-                            }
-                        }
-                    }
+                    Console.Write(i + " ");
                 }
             }
+        }
 
+        /**
+         * Find all the elements not shared by the 2 arrays. Fastest way is to use Hash set. 
+         * @param testArray
+         * @param testArray2
+         */
+        public void uniqueElements(int[] testArray, int[] testArray2)
+        {
+            HashSet<int> map = new HashSet<int>();
+            HashSet<int> map2 = new HashSet<int>();
+            foreach (int i in testArray)
+            {
+                map.Add(i);
+            }
+            foreach (int i in testArray2)
+            {
+                map2.Add(i);
+            }
+            
+            //this removes all items from map that aren't shared with map2. It runs in O(n) so pretty efficient 
+            map.ExceptWith(map2);
+            
+            foreach (int i in map)
+            {
+                Console.Write(i + " ");
+            }
         }
 
         /**
          * Find the most frequent integer in an array 
          * 
          */
-        public static int freqInt(int[] a)
+        public int freqInt(int[] a)
         {
 
             int current = 0;
@@ -214,38 +209,48 @@ namespace InterviewQuestions
             int countPrevious = 0;
             int best = 0;
 
-            Array.Sort(a);
-
-            for (int i = 1; i < a.Length; i++)
+            if (a == null)
             {
-                current = a[i];
-                if (current == prev)
-                {
-                    countCurrent++;
-                }
-                else
-                {
-                    if (countCurrent > countPrevious)
-                    {
-                        countPrevious = countCurrent;
-                        best = a[i - 1];
-                    }
-
-                    countCurrent = 1;
-                    prev = a[i];
-
-                }
+                return -1;
             }
-
-            if (countCurrent > best)
+            else if (a.Length == 1)
             {
-                return a[a.Length - 1];
+                return a[0];
             }
             else
             {
-                return best;
-            }
+                Array.Sort(a);
 
+                for (int i = 1; i < a.Length; i++)
+                {
+                    current = a[i];
+                    if (current == prev)
+                    {
+                        countCurrent++;
+                    }
+                    else
+                    {
+                        if (countCurrent > countPrevious)
+                        {
+                            countPrevious = countCurrent;
+                            best = a[i - 1];
+                        }
+
+                        countCurrent = 1;
+                        prev = a[i];
+
+                    }
+                }
+
+                if (countCurrent > best)
+                {
+                    return a[a.Length - 1];
+                }
+                else
+                {
+                    return best;
+                }
+            }
         }
 
         /**
@@ -253,7 +258,7 @@ namespace InterviewQuestions
          * @param n
          * @return a
          */
-        public static int[] fibbITER(int len)
+        public int[] fibbITER(int len)
         {
             int[] a = new int[len];
 
@@ -280,7 +285,7 @@ namespace InterviewQuestions
          * @param n
          * @return
          */
-        public static int fibbRECUR(int n)
+        public int fibbRECUR(int n)
         {
 
             if (n == 0)
@@ -303,33 +308,68 @@ namespace InterviewQuestions
          * @param a
          * @return val
          */
-        public static int occursOnce(int[] a)
+        public int occursOnce(int[] a)
         {
             int val = 0;
-
-            //possibilities: n^2; or sort the array and go through array once checking; 
-            //or go through deleting checked values
-
-            Array.Sort(a);
-            if (a[0] != a[1])
+            if(a == null){
+                return -1;
+            }
+            else if (a.Length == 1)
             {
                 return a[0];
             }
-
-            for (int i = 1; i < a.Length - 1; i++)
+            else
             {
-                if (a[i] != a[i - 1] && a[i] != a[i + 1])
+                //possibilities: n^2; or sort the array and go through array once checking; 
+                //or go through deleting checked values
+
+                Array.Sort(a);
+                if (a[0] != a[1])
                 {
-                    val = a[i];
-                    break;
+                    return a[0];
+                }
+
+                for (int i = 1; i < a.Length - 1; i++)
+                {
+                    if (a[i] != a[i - 1] && a[i] != a[i + 1])
+                    {
+                        val = a[i];
+                        break;
+                    }
+                }
+
+                if (a[a.Length - 1] != a[a.Length - 2])
+                {
+                    return a[a.Length - 1];
+                }
+            }
+            return val;
+        }
+
+        /*
+         * This method checks if the string is a palindrome. Uses the previously built method reverse()
+         *
+        */
+        public Boolean palindrome(String a)
+        {
+            if(a == null){
+                return false;
+            }
+            else if(a.Length == 1){
+                return true;
+            }
+            else{
+                String b = reverse(a);
+                for (int i = 0; i < a.Length; i++)
+                {
+                    if (a[i] != b[i])
+                    {
+                        return false;
+                    }
                 }
             }
 
-            if (a[a.Length - 1] != a[a.Length - 2])
-            {
-                return a[a.Length - 1];
-            }
-            return val;
+            return true;
         }
 
 
