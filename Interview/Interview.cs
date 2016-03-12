@@ -82,8 +82,34 @@ namespace InterviewQuestions
             Console.WriteLine("This is the unique values in testArray not contained in testArray2: ");
             interview.uniqueElements(testArray, testArray2);
 
+            //#8 Remove duplicates from array
+            Console.WriteLine("");
+            Console.WriteLine("This is the array after duplicates are removed");
+            int[] dupRemoved = interview.removeDuplicates(testArray);
+            foreach (int i in dupRemoved)
+            {
+                Console.Write(i + " , ");
+            }
+
             //keep console open
             Console.ReadKey();
+        }
+
+        private int[] removeDuplicates(int[] testArray)
+        {
+            HashSet<int> map = new HashSet<int>();
+  
+            foreach (int i in testArray)
+            {
+                map.Add(i);
+            }
+            
+            int[] temp = new int[map.Count];
+            //this copies values from hashset to the array
+            map.CopyTo(temp);
+            
+
+            return temp;
         }
 
 
