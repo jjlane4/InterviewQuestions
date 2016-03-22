@@ -91,11 +91,62 @@ namespace InterviewQuestions
                 Console.Write(i + " , ");
             }
 
+            //#9 Find factorial of a number recursively
+            Console.WriteLine("");
+            int fact = interview.factorial(9);
+            Console.WriteLine("Factorial of 9 is : " + fact);
+
+            //#10 Find sum of array of any size with recursion
+            Console.WriteLine("The expected sum of the array is: 27");
+            int[] testSum = new int [] { 1, 2, 3, 4, 5, 12};
+            int arraySum = interview.sumArray(testSum, testSum.Length-1);
+            Console.WriteLine("The sum of the array is : " + arraySum);
+            
+
+
             //keep console open
             Console.ReadKey();
         }
 
-        private int[] removeDuplicates(int[] testArray)
+        /**
+         * Finds the sum of an int array;
+         * @param testSum, n
+         * return
+         */
+        public int sumArray(int[] testSum, int n)
+        {
+            if (n == 0)
+            {
+                return testSum[0];
+            }
+            else
+            {
+                return sumArray(testSum, n - 1) + testSum[n];
+            }
+        }
+
+        /**
+         * Calculates and returns the factorial of the given number. Recursive method.
+         * @param f
+         */
+        public int factorial(int f)
+        {
+            if (f == 0)
+            {
+                return 1; 
+            }
+            else
+            {
+                return factorial(f - 1) * f;
+            }
+        }
+
+        /**
+         * Removes any duplicate entries in an int array. 
+         * @param testArray
+         * return temp
+         */
+        public int[] removeDuplicates(int[] testArray)
         {
             HashSet<int> map = new HashSet<int>();
   
@@ -224,7 +275,8 @@ namespace InterviewQuestions
 
         /**
          * Find the most frequent integer in an array 
-         * 
+         * @param a
+         * return best
          */
         public int freqInt(int[] a)
         {
@@ -374,7 +426,8 @@ namespace InterviewQuestions
 
         /*
          * This method checks if the string is a palindrome. Uses the previously built method reverse()
-         *
+         * @param a
+         * @return Boolean
         */
         public Boolean palindrome(String a)
         {
@@ -397,6 +450,7 @@ namespace InterviewQuestions
 
             return true;
         }
+
 
 
 
